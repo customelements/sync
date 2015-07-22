@@ -1,7 +1,12 @@
 module.exports = [
     {
         method: 'PUT',
-        path: '/{type}',
+        path: '/',
         handler: require('./controllers/put.js')
+    },
+    {
+        method: 'PUT',
+        path: '/{type}',
+        handler: require('./controllers/type/put.js')
     }
 ];
