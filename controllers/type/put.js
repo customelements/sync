@@ -2,9 +2,14 @@ var _ = require('lodash');
 var boom = require('boom');
 var es = require('../../configs/es');
 var fetch = require('../../utils/fetch');
+var token = require('../../utils/token');
 
 function controller(request, reply) {
-    fetch.get('https://fetch.customelements.io/' + request.params.type)
+    token.authorize(request)
+        .then(function() {
+            request.log(['#token.authorize'], 'Done with promise');
+            return fetch('https://fetch.customelements.io/' + request.params.type);
+        })
         .then(function(results) {
             request.log(['#fetch'], 'Done with promise');
             return controller.syncAll(results, request);
